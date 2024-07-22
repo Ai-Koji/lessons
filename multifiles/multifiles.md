@@ -150,7 +150,7 @@ include <...> - подключает из стандартной директо�
 ```bash
 gcc -c main.c
 gcc -c func.c
-gcc -o a.out main.c func.c 
+gcc -o a.out main.o func.o
 ```
 -s компилирует его в ассемблер
 
