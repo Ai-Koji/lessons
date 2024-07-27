@@ -1,5 +1,4 @@
-# Запись/чтение файлов
-## Основы взаимодействия с файлами в C
+# Основы взаимодействия с файлами в C
 
 Работа с файлами в языке программирования C осуществляется с использованием стандартной библиотеки `stdio.h`, которая предоставляет функции для открытия, чтения, записи и закрытия файлов. Основным типом данных для работы с файлами является `FILE`.
 
@@ -27,31 +26,89 @@ FILE *fopen(const char *filename, const char *mode);
 
 ### Чтение из файла
 
-Для чтения данных из файла используются функции `fscanf`, `fgets`, `fread` и другие. Например, для чтения строки из файла можно использовать функцию `fgets`:
+Для чтения данных из файла используются функции `fscanf`, `fgets`, `fread` и другие.
 
-```c
-char buffer[100];
-FILE *file = fopen("example.txt", "r");
+
+1. `fscanf`: Считывает данные из файла, преобразуя их в определенные типы данных.
+
+```C
+FILE *file = fopen("data.txt", "r");
 if (file != NULL) {
-    while (fgets(buffer, sizeof(buffer), file) != NULL) {
-        printf("%s", buffer);
+    int age;
+    char name[50];
+    fscanf(file, "%s %d", name, &age);
+    printf("Имя: %s, Возраст: %d\n", name, age);
+    fclose(file);
+}
+```
+
+2. `fgets`: Считывает строку из файла, включая символ новой строки (`\n`).
+
+```C
+FILE *file = fopen("text.txt", "r");
+if (file != NULL) {
+    char line[100];
+    while (fgets(line, sizeof(line), file) != NULL) {
+        printf("%s", line);
     }
     fclose(file);
 }
-
 ```
+
+3. `getc`: Считывает один символ из файла.
+```C
+FILE *file = fopen("text.txt", "r");
+if (file != NULL) {
+    int ch;
+    while ((ch = getc(file)) != EOF) {
+        printf("%c", ch);
+    }
+    fclose(file);
+}
+```
+
+EOF (End Of File) - это специальный символ, который обозначает конец файла.
+
+EOF  представлен как макрос (константа) в stdio.h,  и  его  значение  обычно  равно  -1.
 
 ### Запись в файл
 
-Для записи данных в файл используются функции `fprintf`, `fputs`, `fwrite` и другие. Например, для записи строки в файл можно использовать функцию `fprintf`:
+Для записи данных в файл используются функции `fprintf`, `fputs`, `fwrite` и другие.
 
-```c
-FILE *file = fopen("example.txt", "w");
+
+1. `fprintf`: Записывает данные в файл, преобразуя их в строковый формат.
+
+```C
+FILE *file = fopen("output.txt", "w");
 if (file != NULL) {
-    fprintf(file, "Hello, World!\\n");
+    fprintf(file, "Привет, мир! %d\n", 2023);
     fclose(file);
 }
+```
 
+2. `fputs`: Записывает строку в файл, включая символ новой строки (`\n`).
+
+```c
+FILE *file = fopen("log.txt", "a");
+if (file != NULL) {
+    fputs("Запись в лог-файл.\n", file);
+    fclose(file);
+}
+```
+
+3. `putc`: Записывает один символ в файл.
+
+```c
+FILE *file = fopen("text.txt", "w");
+if (file != NULL) {
+    putc('H', file);
+    putc('e', file);
+    putc('l', file);
+    putc('l', file);
+    putc('o', file);
+    putc('n', file);
+    fclose(file);
+}
 ```
 
 ### Закрытие файла
